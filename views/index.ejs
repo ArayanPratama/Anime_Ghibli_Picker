@@ -9,18 +9,74 @@
 </head>
 
 <body>
-    <h1>Confused about what Ghibli anime to watch today? Tap the button below</h1>
-    <div id="poster-container">
-        <img id="poster" src="<%= films[0].image %>" alt="Ghibli Anime Poster">
-    </div>
-    <button id="randomize-btn">Pick an Anime</button>
-    <script>
-        const films = JSON.stringify(films);
+    <!-- Background blur container -->
+    <div id="background-blur"></div>
 
-        document.getElementById('randomize-btn').addEventListener('click', () => {
-            const randomFilm = films[Math.floor(Math.random() * films.length)];
-            document.getElementById('poster').src = randomFilm.image;
+    <!-- Teks awal yang akan diklik -->
+    <h1 id="intro-text">Confused about what Ghibli anime to watch today? Tap this text!</h1>
+
+    <!-- Container untuk poster, deskripsi, sutradara, dan tombol yang tersembunyi pada awalnya -->
+    <div id="content-container" style="display: none;">
+        <div id="poster-container">
+            <!-- Gambar poster -->
+            <img id="poster" src="" alt="Ghibli Anime Poster">
+            <!-- Info film di samping poster -->
+            <div id="poster-and-info">
+                <!-- Tempat untuk menampilkan judul film di atas poster -->
+                <h2 id="film-title"></h2>
+                <!-- Deskripsi film -->
+                <div id="film-description"></div>
+                <!-- Nama sutradara di bawah poster -->
+                <p id="film-director"></p>
+            </div>
+        </div>
+        <button id="refresh-btn">Pick Another Anime</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Ambil elemen-elemen yang diperlukan
+        const introText = document.getElementById('intro-text');
+        const contentContainer = document.getElementById('content-container');
+        const poster = document.getElementById('poster');
+        const filmTitle = document.getElementById('film-title');
+        const filmDescription = document.getElementById('film-description');
+        const filmDirector = document.getElementById('film-director');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const backgroundBlur = document.getElementById('background-blur');
+
+        // Fungsi untuk mengambil film acak dari server
+        const fetchRandomFilm = async () => {
+            try {
+                const response = await axios.get('/random-film');
+                const film = response.data;
+
+                // Set judul, poster, deskripsi, waktu tayang,  dan sutradara
+                filmTitle.textContent = film.title;
+                poster.src = film.image;
+                filmDescription.textContent = film.description || 'No description available';
+                filmDirector.textContent = `Director: ${film.director || 'Unknown'}`;
+
+                // Set background blur dengan gambar poster
+                backgroundBlur.style.backgroundImage = `url(${film.image})`;
+                backgroundBlur.style.opacity = 1;
+            } catch (error) {
+                console.error('Error fetching film:', error);
+            }
+        };
+
+        // Event listener untuk klik pada teks awal
+        introText.addEventListener('click', () => {
+            // Sembunyikan teks awal
+            introText.style.display = 'none';
+            // Tampilkan konten gambar dan tombol
+            contentContainer.style.display = 'block';
+            // Ambil film acak pertama kali
+            fetchRandomFilm();
         });
+
+        // Event listener untuk tombol refresh
+        refreshBtn.addEventListener('click', fetchRandomFilm);
     </script>
 </body>
 
