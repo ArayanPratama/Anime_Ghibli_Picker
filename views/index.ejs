@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Picker</title>
+    <link rel="stylesheet" href="/styless.css">
+</head>
+
+<body>
+    <h1>Confused about what Ghibli anime to watch today? Tap the button below</h1>
+    <div id="poster-container">
+        <img id="poster" src="<%= films[0].image %>" alt="Ghibli Anime Poster">
+    </div>
+    <button id="randomize-btn">Pick an Anime</button>
+    <script>
+        const films = JSON.stringify(films);
+
+        document.getElementById('randomize-btn').addEventListener('click', () => {
+            const randomFilm = films[Math.floor(Math.random() * films.length)];
+            document.getElementById('poster').src = randomFilm.image;
+        });
+    </script>
+</body>
+
+</html>
