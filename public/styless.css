@@ -22,12 +22,22 @@ h1 {
     margin-bottom: 20px;
 }
 
+.intro-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    /* Menyusun kontainer untuk memenuhi tinggi layar */
+}
+
 #intro-text {
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 3.em;
     font-weight: bold;
     color: #007acc;
     transition: color 0.3s, transform 0.3s;
+    text-align: center;
+    /* Memastikan teks di dalamnya juga berada di tengah */
 }
 
 #intro-text:hover {
