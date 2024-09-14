@@ -142,6 +142,10 @@ button:hover {
     opacity: 0;
 }
 
+.hidden {
+    display: none;
+}
+
 /* Tampilan responsif */
 @media (max-width: 768px) {
     #poster-container {
